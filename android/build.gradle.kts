@@ -35,12 +35,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    // التحديث المتوافق مع معايير Gradle الحديثة لعام 2026
+
     sourceSets {
         getByName("main") {
-            java.srcDirs("src/main/kotlin")
+            java.directories("src/main/kotlin")
         }
         getByName("test") {
-            java.srcDirs("src/test/kotlin")
+            java.directories("src/test/kotlin")
         }
     }
 
@@ -77,7 +79,8 @@ dependencies {
 }
 
 // إجبار أي مشروع يضم هذه الحزمة على تطبيق حل تعارضات كوتلن
+// الكود البديل المتوافق تماماً مع Kotlin DSL (ملفات .kts)
 rootProject.subprojects {
-    evaluationDependsOn(it.path)
+    rootProject.evaluationDependsOn(this.path)
 }
-apply from: './kotlin-resolver.gradle'
+apply(from = "./kotlin-resolver.gradle")
