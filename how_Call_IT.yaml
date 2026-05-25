@@ -1,0 +1,9 @@
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # استدعاء حزمتكِ الخاصة والمشاركة من حسابكِ على GitHub
+  my_kotlin_resolver:
+    git:
+      url: https://github.com/afrahbizan/my_kotlin_resolver.git
+      ref: main
