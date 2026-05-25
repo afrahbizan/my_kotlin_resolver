@@ -1,0 +1,25 @@
+// kotlin-resolver.gradle
+// -----------------------------------------------------------------------------------------
+// هذا الملف عبارة عن أداة قياسية لتوحيد إصدارات Kotlin Gradle Plugin في جميع المكتبات الفرعية
+// ويمنع حدوث تعارضات الإصدارات (Dependency Conflicts) عند ترقية Flutter.
+// -----------------------------------------------------------------------------------------
+
+subprojects {
+    project.buildscript.configurations.getByName("classpath") {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            // التحقق مما إذا كانت المكتبة الخارجية تطلب نسخة خاصة من Kotlin Plugin
+            if (details.requested.group == "org.jetbrains.kotlin" && details.requested.name.startsWith("kotlin-gradle-plugin")) {
+
+                // جلب إصدار كوتلن المحدد للمشروع الرئيسي، مع وضع نسخة احتياطية (Fallback) إذا لم يكن معرفاً
+                def rootKotlinVersion = rootProject.ext.has("kotlin_version")
+                        ? rootProject.ext.get("kotlin_version")
+                        : "1.9.20" // نسخة افتراضية آمنة في حال عدم وجود المتغير
+
+                // إجبار المكتبة الفرعية على استخدام إصدار المشروع الرئيسي
+                details.useVersion(rootKotlinVersion)
+
+                logger.lifecycle("Branching Fix: Forced [${details.requested.name}] to use version [${rootKotlinVersion}] in subproject [${project.name}]")
+            }
+        }
+    }
+}
