@@ -74,8 +74,7 @@ dependencies {
 }
 
 // إجبار أي مشروع يضم هذه الحزمة على تطبيق حل تعارضات كوتلن
-// الكود البديل المتوافق تماماً مع Kotlin DSL (ملفات .kts)
-rootProject.subprojects {
-    rootProject.evaluationDependsOn(this.path)
+
+gradle.projectsEvaluated {
+    rootProject.apply(mapOf("from" to "./kotlin-resolver.gradle"))
 }
-apply(from = "./kotlin-resolver.gradle")
