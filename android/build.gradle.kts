@@ -36,14 +36,9 @@ android {
     }
 
     // التحديث المتوافق مع معايير Gradle الحديثة لعام 2026
-
     sourceSets {
-        getByName("main") {
-            java.directories("src/main/kotlin")
-        }
-        getByName("test") {
-            java.directories("src/test/kotlin")
-        }
+        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("test").java.srcDirs("src/test/kotlin")
     }
 
     defaultConfig {
